@@ -66,6 +66,20 @@ class Layout extends JFrame {
         JButton dot = new JButton("."); functionButtonArr[12] = dot;
         JButton result = new JButton("="); functionButtonArr[13] = result;
 
+        for (JButton button : functionButtonArr) {
+            button.addActionListener(e -> {
+                switch (button.getText()) {
+                    case "CE":
+                        inputLabel.setText("0");
+                        break;
+                    case "C":
+                        processLabel.setText("");
+                        inputLabel.setText("0");
+                        break;
+                }
+            });
+        }
+
         buttonPanel.add(per);
         buttonPanel.add(ce);
         buttonPanel.add(c);

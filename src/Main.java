@@ -36,11 +36,11 @@ class Layout extends JFrame {
     }
 
     void setButton(JPanel buttonPanel, JLabel processLabel, JLabel inputLabel) {
-        JButton[] jButtonArr = new JButton[10];
+        JButton[] numberButtonArr = new JButton[10];
         for (int i=0; i<10; i++) {
-            jButtonArr[i] = new JButton(String.valueOf(i));
+            numberButtonArr[i] = new JButton(String.valueOf(i));
             String num = String.valueOf(i);
-            jButtonArr[i].addActionListener(e -> {
+            numberButtonArr[i].addActionListener(e -> {
                 if (inputLabel.getText().equals("0")) {
                     inputLabel.setText(num);
                 } else {
@@ -49,35 +49,52 @@ class Layout extends JFrame {
             });
         }
 
-        JButton per = new JButton("%"); buttonPanel.add(per);
-        JButton ce = new JButton("CE"); buttonPanel.add(ce);
-        JButton c = new JButton("C"); buttonPanel.add(c);
-        JButton backSpace = new JButton("<-"); buttonPanel.add(backSpace);
+        JButton[] functionButtonArr = new JButton[14];
 
-        JButton divideByOne = new JButton("1/x"); buttonPanel.add(divideByOne);
-        JButton xSquare = new JButton("x²"); buttonPanel.add(xSquare);
-        JButton rootX = new JButton("√x"); buttonPanel.add(rootX);
-        JButton divide = new JButton("÷"); buttonPanel.add(divide);
+        JButton per = new JButton("%"); functionButtonArr[0] = per;
+        JButton ce = new JButton("CE"); functionButtonArr[1] = ce;
+        JButton c = new JButton("C"); functionButtonArr[2] = c;
+        JButton backSpace = new JButton("<-"); functionButtonArr[3] = backSpace;
+        JButton divideByOne = new JButton("1/x"); functionButtonArr[4] = divideByOne;
+        JButton xSquare = new JButton("x²"); functionButtonArr[5] = xSquare;
+        JButton rootX = new JButton("√x"); functionButtonArr[6] = rootX;
+        JButton divide = new JButton("÷"); functionButtonArr[7] = divide;
+        JButton multiply = new JButton("x"); functionButtonArr[8] = multiply;
+        JButton minus = new JButton("-"); functionButtonArr[9] = minus;
+        JButton plus = new JButton("+"); functionButtonArr[10] = plus;
+        JButton plusMinus = new JButton("+/-"); functionButtonArr[11] = plusMinus;
+        JButton dot = new JButton("."); functionButtonArr[12] = dot;
+        JButton result = new JButton("="); functionButtonArr[13] = result;
 
-        buttonPanel.add(jButtonArr[7]);
-        buttonPanel.add(jButtonArr[8]);
-        buttonPanel.add(jButtonArr[9]);
-        JButton multiply = new JButton("x"); buttonPanel.add(multiply);
+        buttonPanel.add(per);
+        buttonPanel.add(ce);
+        buttonPanel.add(c);
+        buttonPanel.add(backSpace);
 
-        buttonPanel.add(jButtonArr[4]);
-        buttonPanel.add(jButtonArr[5]);
-        buttonPanel.add(jButtonArr[6]);
-        JButton minus = new JButton("-"); buttonPanel.add(minus);
+        buttonPanel.add(divideByOne);
+        buttonPanel.add(xSquare);
+        buttonPanel.add(rootX);
+        buttonPanel.add(divide);
 
-        buttonPanel.add(jButtonArr[1]);
-        buttonPanel.add(jButtonArr[2]);
-        buttonPanel.add(jButtonArr[3]);
-        JButton plus = new JButton("+"); buttonPanel.add(plus);
+        buttonPanel.add(numberButtonArr[7]);
+        buttonPanel.add(numberButtonArr[8]);
+        buttonPanel.add(numberButtonArr[9]);
+        buttonPanel.add(multiply);
 
-        JButton plusMinus = new JButton("+/-"); buttonPanel.add(plusMinus);
-        buttonPanel.add(jButtonArr[0]);
-        JButton dot = new JButton("."); buttonPanel.add(dot);
-        JButton result = new JButton("="); buttonPanel.add(result);
+        buttonPanel.add(numberButtonArr[4]);
+        buttonPanel.add(numberButtonArr[5]);
+        buttonPanel.add(numberButtonArr[6]);
+        buttonPanel.add(minus);
+
+        buttonPanel.add(numberButtonArr[1]);
+        buttonPanel.add(numberButtonArr[2]);
+        buttonPanel.add(numberButtonArr[3]);
+        buttonPanel.add(plus);
+
+        buttonPanel.add(plusMinus);
+        buttonPanel.add(numberButtonArr[0]);
+        buttonPanel.add(dot);
+        buttonPanel.add(result);
     }
 }
 public class Main {

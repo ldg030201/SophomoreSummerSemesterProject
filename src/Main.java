@@ -36,6 +36,11 @@ class Layout extends JFrame {
     }
 
     void setButton(JPanel buttonPanel) {
+        JButton[] jButtonArr = new JButton[10];
+        for (int i=0; i<10; i++) {
+            jButtonArr[i] = new JButton(String.valueOf(i));
+        }
+
         JButton per = new JButton("%"); buttonPanel.add(per);
         JButton ce = new JButton("CE"); buttonPanel.add(ce);
         JButton c = new JButton("C"); buttonPanel.add(c);
@@ -46,23 +51,23 @@ class Layout extends JFrame {
         JButton rootX = new JButton("√x"); buttonPanel.add(rootX);
         JButton divide = new JButton("÷"); buttonPanel.add(divide);
 
-        JButton seven = new JButton("7"); buttonPanel.add(seven);
-        JButton eight = new JButton("8"); buttonPanel.add(eight);
-        JButton nine = new JButton("9"); buttonPanel.add(nine);
+        buttonPanel.add(jButtonArr[7]);
+        buttonPanel.add(jButtonArr[8]);
+        buttonPanel.add(jButtonArr[9]);
         JButton multiply = new JButton("x"); buttonPanel.add(multiply);
 
-        JButton four = new JButton("4"); buttonPanel.add(four);
-        JButton five = new JButton("5"); buttonPanel.add(five);
-        JButton six = new JButton("6"); buttonPanel.add(six);
+        buttonPanel.add(jButtonArr[4]);
+        buttonPanel.add(jButtonArr[5]);
+        buttonPanel.add(jButtonArr[6]);
         JButton minus = new JButton("-"); buttonPanel.add(minus);
 
-        JButton one = new JButton("1"); buttonPanel.add(one);
-        JButton two = new JButton("2"); buttonPanel.add(two);
-        JButton three = new JButton("3"); buttonPanel.add(three);
+        buttonPanel.add(jButtonArr[1]);
+        buttonPanel.add(jButtonArr[2]);
+        buttonPanel.add(jButtonArr[3]);
         JButton plus = new JButton("+"); buttonPanel.add(plus);
 
         JButton plusMinus = new JButton("+/-"); buttonPanel.add(plusMinus);
-        JButton zero = new JButton("0"); buttonPanel.add(zero);
+        buttonPanel.add(jButtonArr[0]);
         JButton dot = new JButton("."); buttonPanel.add(dot);
         JButton result = new JButton("="); buttonPanel.add(result);
     }

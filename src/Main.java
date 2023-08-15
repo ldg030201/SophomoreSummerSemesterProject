@@ -26,7 +26,7 @@ class Layout extends JFrame {
         buttonPanel.setLayout(new GridLayout(6, 4));
         buttonPanel.setPreferredSize(new Dimension(300, 300));
 
-        setButton(buttonPanel);
+        setButton(buttonPanel, processLabel, inputLabel);
 
         mainPanel.add(textPanel);
         mainPanel.add(buttonPanel);
@@ -35,10 +35,18 @@ class Layout extends JFrame {
         setVisible(true);
     }
 
-    void setButton(JPanel buttonPanel) {
+    void setButton(JPanel buttonPanel, JLabel processLabel, JLabel inputLabel) {
         JButton[] jButtonArr = new JButton[10];
         for (int i=0; i<10; i++) {
             jButtonArr[i] = new JButton(String.valueOf(i));
+            String num = String.valueOf(i);
+            jButtonArr[i].addActionListener(e -> {
+                if (inputLabel.getText().equals("0")) {
+                    inputLabel.setText(num);
+                } else {
+                    inputLabel.setText(inputLabel.getText() + num);
+                }
+            });
         }
 
         JButton per = new JButton("%"); buttonPanel.add(per);

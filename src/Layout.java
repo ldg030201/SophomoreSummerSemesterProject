@@ -74,6 +74,7 @@ public class Layout extends JFrame {
         for (JButton button : functionButtonArr) {
             button.addActionListener(e -> {
                 String inputText = inputLabel.getText();
+                String processText = processLabel.getText();
                 switch (button.getText()) {
                     case "CE":
                         inputLabel.setText("0");
@@ -156,10 +157,22 @@ public class Layout extends JFrame {
 
     void calculate() {
         String lastLabel;
+
         if (!processLabel.getText().substring(processLabel.getText().length() - 1).equals(")")) {
             lastLabel = processLabel.getText() + " " + inputLabel.getText();
         } else {
             lastLabel = processLabel.getText();
+        }
+
+        int leftParenthesisCount = 0;
+        int rightParenthesisCount = 0;
+        for (String s : lastLabel.split(" ")) {
+            if (s.equals("(")) leftParenthesisCount++;
+            if (s.equals(")")) rightParenthesisCount++;
+        }
+
+        if (leftParenthesisCount != rightParenthesisCount) {
+            JOptionPane.showMessageDialog(null, "괄호의 개수가 맞지 않습니다.", "에러!", JOptionPane.ERROR_MESSAGE);
         }
 
         Stack<String> numberStack = new Stack<>(); //숫자 스택

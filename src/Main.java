@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
+import java.util.Stack;
 
 class Layout extends JFrame {
     JLabel processLabel, inputLabel;
@@ -87,13 +89,24 @@ class Layout extends JFrame {
                         }
                         inputLabel.setText(inputText);
                         break;
-                    case "÷":
-                    case "*":
-                    case "-":
                     case "+":
+                    case "-":
+                    case "*":
+                    case "/":
+                    case ")":
                         inputProcess(button.getText());
                         break;
-
+                    case "(":
+                        String[] inputArr = inputText.split(" ");
+                        String lastText = inputArr[inputArr.length - 1];
+                        if (lastText.matches("[0-9]+")) {
+                            inputProcess("* " + button.getText());
+                        } else {
+                            inputProcess(button.getText());
+                        }
+                        break;
+                    case "=":
+                        calculate();
                 }
             });
         }
@@ -138,6 +151,58 @@ class Layout extends JFrame {
             processLabel.setText(inputLabel.getText() + " " + text);
         } else {
             processLabel.setText(processLabel.getText() + " " + inputLabel.getText() + " " + text);
+        }
+    }
+
+    void calculate() {
+        String lastLabel = processLabel.getText() + " " + inputLabel.getText();
+
+        Stack<String> numberStack = new Stack<>(); //숫자 스택
+        Stack<String> operatorStack = new Stack<>(); //연산자 스택
+        Map<String, Integer> operatorPrecedenceMap = Map.of("+", 1, "-", 1, "*", 2, "/", 2);
+
+        for (String word : lastLabel.split(" ")) {
+            if (word.matches("[0-9]+")) {
+                numberStack.push(word);
+            } else if (word.equals("(")) {
+                operatorStack.push(word);
+            } else if (word.equals(")")) {
+                while(!operatorStack.peek().equals("(")) {
+                    numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+                }
+                operatorStack.pop();
+            } else if (operatorPrecedenceMap.containsKey(word)) {
+                while (!operatorStack.isEmpty()
+                    && !operatorStack.peek().equals("(")
+                    && operatorPrecedenceMap.get(word) <= operatorPrecedenceMap.get(operatorStack.peek())) {
+                    numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+                }
+                operatorStack.push(word);
+            }
+        }
+
+        while (!operatorStack.isEmpty()) {
+            numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+        }
+
+        processLabel.setText("");
+        inputLabel.setText(numberStack.pop());
+    }
+
+    String priorityCalculation(String operator, String str1, String str2) {
+        double num1 = Double.parseDouble(str1);
+        double num2 = Double.parseDouble(str2);
+        switch (operator) {
+            case "+":
+                return String.valueOf(num1 + num2);
+            case "-":
+                return String.valueOf(num1 - num2);
+            case "*":
+                return String.valueOf(num1 * num2);
+            case "/":
+                return String.valueOf(num1 / num2);
+            default:
+                return null;
         }
     }
 }

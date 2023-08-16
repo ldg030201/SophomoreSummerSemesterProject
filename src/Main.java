@@ -55,9 +55,9 @@ class Layout extends JFrame {
         JButton ce = new JButton("CE"); functionButtonArr[1] = ce;
         JButton c = new JButton("C"); functionButtonArr[2] = c;
         JButton backSpace = new JButton("<-"); functionButtonArr[3] = backSpace;
-        JButton divideByOne = new JButton("1/x"); functionButtonArr[4] = divideByOne;
-        JButton xSquare = new JButton("x²"); functionButtonArr[5] = xSquare;
-        JButton rootX = new JButton("√x"); functionButtonArr[6] = rootX;
+        JButton xSquare = new JButton("x²"); functionButtonArr[4] = xSquare;
+        JButton leftParenthesis = new JButton("("); functionButtonArr[5] = leftParenthesis;
+        JButton rightParenthesis = new JButton(")"); functionButtonArr[6] = rightParenthesis;
         JButton divide = new JButton("÷"); functionButtonArr[7] = divide;
         JButton multiply = new JButton("x"); functionButtonArr[8] = multiply;
         JButton minus = new JButton("-"); functionButtonArr[9] = minus;
@@ -93,9 +93,9 @@ class Layout extends JFrame {
         buttonPanel.add(c);
         buttonPanel.add(backSpace);
 
-        buttonPanel.add(divideByOne);
         buttonPanel.add(xSquare);
-        buttonPanel.add(rootX);
+        buttonPanel.add(leftParenthesis);
+        buttonPanel.add(rightParenthesis);
         buttonPanel.add(divide);
 
         buttonPanel.add(numberButtonArr[7]);

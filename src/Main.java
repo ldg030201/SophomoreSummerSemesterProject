@@ -68,6 +68,7 @@ class Layout extends JFrame {
 
         for (JButton button : functionButtonArr) {
             button.addActionListener(e -> {
+                String inputText = inputLabel.getText();
                 switch (button.getText()) {
                     case "CE":
                         inputLabel.setText("0");
@@ -75,6 +76,13 @@ class Layout extends JFrame {
                     case "C":
                         processLabel.setText("");
                         inputLabel.setText("0");
+                        break;
+                    case "<-":
+                        inputText = inputText.substring(0, inputText.length() - 1);
+                        if (inputText.isEmpty()) {
+                            inputText = "0";
+                        }
+                        inputLabel.setText(inputText);
                         break;
                 }
             });

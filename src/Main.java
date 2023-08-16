@@ -155,7 +155,12 @@ class Layout extends JFrame {
     }
 
     void calculate() {
-        String lastLabel = processLabel.getText() + " " + inputLabel.getText();
+        String lastLabel;
+        if (!processLabel.getText().substring(processLabel.getText().length() - 1).equals(")")) {
+            lastLabel = processLabel.getText() + " " + inputLabel.getText();
+        } else {
+            lastLabel = processLabel.getText();
+        }
 
         Stack<String> numberStack = new Stack<>(); //숫자 스택
         Stack<String> operatorStack = new Stack<>(); //연산자 스택

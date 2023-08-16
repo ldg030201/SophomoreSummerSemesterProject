@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 class Layout extends JFrame {
+    JLabel processLabel, inputLabel;
+    boolean isReset = false;
     Layout() {
         setTitle("2022531046_이동건_계산기");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,8 +18,8 @@ class Layout extends JFrame {
         textPanel.setLayout(new GridLayout(2, 1)); //과정 창과 입력 및 결과 창 2개 넣을 예정
         textPanel.setPreferredSize(new Dimension(300, 100));
 
-        JLabel processLabel = new JLabel("", JLabel.RIGHT); //과정
-        JLabel inputLabel = new JLabel("0", JLabel.RIGHT); //입력 및 결과
+        processLabel = new JLabel("", JLabel.RIGHT); //과정
+        inputLabel = new JLabel("0", JLabel.RIGHT); //입력 및 결과
         textPanel.add(processLabel);
         textPanel.add(inputLabel);
 
@@ -26,7 +28,7 @@ class Layout extends JFrame {
         buttonPanel.setLayout(new GridLayout(6, 4));
         buttonPanel.setPreferredSize(new Dimension(300, 300));
 
-        setButton(buttonPanel, processLabel, inputLabel);
+        setButton(buttonPanel);
 
         mainPanel.add(textPanel);
         mainPanel.add(buttonPanel);
@@ -35,14 +37,15 @@ class Layout extends JFrame {
         setVisible(true);
     }
 
-    void setButton(JPanel buttonPanel, JLabel processLabel, JLabel inputLabel) {
+    void setButton(JPanel buttonPanel) {
         JButton[] numberButtonArr = new JButton[10];
         for (int i=0; i<10; i++) {
             numberButtonArr[i] = new JButton(String.valueOf(i));
             String num = String.valueOf(i);
             numberButtonArr[i].addActionListener(e -> {
-                if (inputLabel.getText().equals("0")) {
+                if (inputLabel.getText().equals("0") || isReset) {
                     inputLabel.setText(num);
+                    isReset = false;
                 } else {
                     inputLabel.setText(inputLabel.getText() + num);
                 }
@@ -59,7 +62,7 @@ class Layout extends JFrame {
         JButton leftParenthesis = new JButton("("); functionButtonArr[5] = leftParenthesis;
         JButton rightParenthesis = new JButton(")"); functionButtonArr[6] = rightParenthesis;
         JButton divide = new JButton("÷"); functionButtonArr[7] = divide;
-        JButton multiply = new JButton("x"); functionButtonArr[8] = multiply;
+        JButton multiply = new JButton("*"); functionButtonArr[8] = multiply;
         JButton minus = new JButton("-"); functionButtonArr[9] = minus;
         JButton plus = new JButton("+"); functionButtonArr[10] = plus;
         JButton plusMinus = new JButton("+/-"); functionButtonArr[11] = plusMinus;
@@ -84,6 +87,13 @@ class Layout extends JFrame {
                         }
                         inputLabel.setText(inputText);
                         break;
+                    case "÷":
+                    case "*":
+                    case "-":
+                    case "+":
+                        inputProcess(button.getText());
+                        break;
+
                 }
             });
         }
@@ -117,6 +127,18 @@ class Layout extends JFrame {
         buttonPanel.add(numberButtonArr[0]);
         buttonPanel.add(dot);
         buttonPanel.add(result);
+    }
+
+    void inputProcess(String text) {
+        if (isReset) {
+            return;
+        }
+        isReset = true;
+        if (processLabel.getText().isEmpty()) {
+            processLabel.setText(inputLabel.getText() + " " + text);
+        } else {
+            processLabel.setText(processLabel.getText() + " " + inputLabel.getText() + " " + text);
+        }
     }
 }
 public class Main {

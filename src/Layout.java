@@ -106,20 +106,12 @@ public class Layout extends JFrame {
                     case "-":
                     case "*":
                     case "/":
+                    case "(":
                     case ")":
                         inputProcessLabel(button.getText());
                         break;
                     case ".":
                         inputInputLabel(button.getText());
-                        break;
-                    case "(":
-                        String[] inputArr = inputText.split(" ");
-                        String lastText = inputArr[inputArr.length - 1];
-                        if (lastText.matches("[0-9]+")) {
-                            inputProcessLabel("* " + button.getText());
-                        } else {
-                            inputProcessLabel(button.getText());
-                        }
                         break;
                     case "=":
                         calculate();
@@ -176,11 +168,30 @@ public class Layout extends JFrame {
     void inputProcessLabel(String text) {
         if (isReset) {
             return;
+        } else if (text.equals(")") && !processLabel.getText().contains("(")) {
+            return;
         }
 
-        isReset = true;
-        if (processLabel.getText().isEmpty()) {
+        String[] inputArr = inputLabel.getText().split(" ");
+        String lastInputText = inputArr[inputArr.length - 1];
+
+        String[] processArr = processLabel.getText().split(" ");
+        String lastProcessText = processArr[processArr.length - 1];
+
+        if (text.equals("(") && !inputLabel.getText().equals("0") && lastInputText.matches("[0-9]+")) {;
+            text = "*" + text;
+        }
+
+        if (!text.equals(")")) {
+            isReset = true;
+        }
+
+        if (text.equals("(") && processLabel.getText().isEmpty()) {
+            processLabel.setText("(");
+        } else if (processLabel.getText().isEmpty()) {
             processLabel.setText(inputLabel.getText() + " " + text);
+        } else if (lastProcessText.equals(")")) {
+            processLabel.setText(processLabel.getText() + " " + text);
         } else {
             processLabel.setText(processLabel.getText() + " " + inputLabel.getText() + " " + text);
         }

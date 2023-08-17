@@ -217,11 +217,11 @@ public class Layout extends JFrame {
             case "+":
                 return String.valueOf(num1 + num2);
             case "-":
-                return String.valueOf(num1 - num2);
+                return String.valueOf(num2 - num1);
             case "*":
                 return String.valueOf(num1 * num2);
             case "/":
-                return String.valueOf(num1 / num2);
+                return String.valueOf(num2 / num1);
             default:
                 return null;
         }

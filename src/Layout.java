@@ -70,7 +70,7 @@ public class Layout extends JFrame {
         JButton xSquare = new JButton("x²"); functionButtonArr[4] = xSquare;
         JButton leftParenthesis = new JButton("("); functionButtonArr[5] = leftParenthesis;
         JButton rightParenthesis = new JButton(")"); functionButtonArr[6] = rightParenthesis;
-        JButton divide = new JButton("÷"); functionButtonArr[7] = divide;
+        JButton divide = new JButton("/"); functionButtonArr[7] = divide;
         JButton multiply = new JButton("*"); functionButtonArr[8] = multiply;
         JButton minus = new JButton("-"); functionButtonArr[9] = minus;
         JButton plus = new JButton("+"); functionButtonArr[10] = plus;
@@ -221,8 +221,16 @@ public class Layout extends JFrame {
             numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
         }
 
+        //소수점 4자리 반올림 및 .0 제거
+        double value = Math.round(Double.parseDouble(numberStack.pop()) * 10000.0) / 10000.0;
+        String valueStr = Double.toString(value);
+
+        if (valueStr.endsWith(".0")) {
+            valueStr = valueStr.substring(0, valueStr.length() - 2);
+        }
+
         processLabel.setText("");
-        inputLabel.setText(numberStack.pop());
+        inputLabel.setText(valueStr);
         isClean = true;
     }
 

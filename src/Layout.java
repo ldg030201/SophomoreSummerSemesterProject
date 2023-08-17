@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Stack;
 
@@ -44,6 +45,8 @@ public class Layout extends JFrame {
         JButton[] numberButtonArr = new JButton[10];
         for (int i=0; i<10; i++) {
             numberButtonArr[i] = new JButton(String.valueOf(i));
+            numberButtonArr[i].setBackground(new Color(Color.WHITE.getRGB()));
+            numberButtonArr[i].setFont(new Font("고딕", Font.BOLD, 20));
             String num = String.valueOf(i);
             numberButtonArr[i].addActionListener(e -> {
                 if (inputLabel.getText().equals("0") || isReset || isClean) {
@@ -61,7 +64,7 @@ public class Layout extends JFrame {
         JButton per = new JButton("%"); functionButtonArr[0] = per;
         JButton ce = new JButton("CE"); functionButtonArr[1] = ce;
         JButton c = new JButton("C"); functionButtonArr[2] = c;
-        JButton backSpace = new JButton("<-"); functionButtonArr[3] = backSpace;
+        JButton backSpace = new JButton("⌫"); functionButtonArr[3] = backSpace;
         JButton xSquare = new JButton("x²"); functionButtonArr[4] = xSquare;
         JButton leftParenthesis = new JButton("("); functionButtonArr[5] = leftParenthesis;
         JButton rightParenthesis = new JButton(")"); functionButtonArr[6] = rightParenthesis;
@@ -72,6 +75,17 @@ public class Layout extends JFrame {
         JButton plusMinus = new JButton("+/-"); functionButtonArr[11] = plusMinus;
         JButton dot = new JButton("."); functionButtonArr[12] = dot;
         JButton result = new JButton("="); functionButtonArr[13] = result;
+
+        for (JButton jButton : Arrays.asList(
+                per, ce, c, backSpace, xSquare, leftParenthesis, rightParenthesis,
+                divide, multiply, minus, plus, plusMinus, dot)) {
+            jButton.setBackground(new Color(Color.LIGHT_GRAY.getRGB()));
+            jButton.setFont(new Font("고딕", Font.PLAIN, 20));
+        }
+
+        result.setBackground(new Color(0, 90, 158));
+        result.setFont(new Font("고딕", Font.PLAIN, 20));
+
 
         for (JButton button : functionButtonArr) {
             button.addActionListener(e -> {
@@ -85,7 +99,7 @@ public class Layout extends JFrame {
                         processLabel.setText("");
                         inputLabel.setText("0");
                         break;
-                    case "<-":
+                    case "⌫":
                         inputText = inputText.substring(0, inputText.length() - 1);
                         if (inputText.isEmpty()) {
                             inputText = "0";

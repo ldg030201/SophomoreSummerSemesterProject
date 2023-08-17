@@ -6,6 +6,7 @@ import java.util.Stack;
 public class Layout extends JFrame {
     JLabel processLabel, inputLabel;
     boolean isReset = false;
+    boolean isClean = false;
     Layout() {
         setTitle("2022531046_이동건_계산기");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,9 +46,10 @@ public class Layout extends JFrame {
             numberButtonArr[i] = new JButton(String.valueOf(i));
             String num = String.valueOf(i);
             numberButtonArr[i].addActionListener(e -> {
-                if (inputLabel.getText().equals("0") || isReset) {
+                if (inputLabel.getText().equals("0") || isReset || isClean) {
                     inputLabel.setText(num);
                     isReset = false;
+                    isClean = false;
                 } else {
                     inputLabel.setText(inputLabel.getText() + num);
                 }
@@ -205,6 +207,7 @@ public class Layout extends JFrame {
 
         processLabel.setText("");
         inputLabel.setText(numberStack.pop());
+        isClean = true;
     }
 
     String priorityCalculation(String operator, String str1, String str2) {

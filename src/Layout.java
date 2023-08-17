@@ -51,13 +51,7 @@ public class Layout extends JFrame {
             numberButtonArr[i].setFont(new Font("고딕", Font.BOLD, 20));
             String num = String.valueOf(i);
             numberButtonArr[i].addActionListener(e -> {
-                if (inputLabel.getText().equals("0") || isReset || isClean) {
-                    inputLabel.setText(num);
-                    isReset = false;
-                    isClean = false;
-                } else {
-                    inputLabel.setText(inputLabel.getText() + num);
-                }
+                inputInputLabel(num);
             });
         }
 
@@ -113,19 +107,23 @@ public class Layout extends JFrame {
                     case "*":
                     case "/":
                     case ")":
-                        inputProcess(button.getText());
+                        inputProcessLabel(button.getText());
+                        break;
+                    case ".":
+                        inputInputLabel(button.getText());
                         break;
                     case "(":
                         String[] inputArr = inputText.split(" ");
                         String lastText = inputArr[inputArr.length - 1];
                         if (lastText.matches("[0-9]+")) {
-                            inputProcess("* " + button.getText());
+                            inputProcessLabel("* " + button.getText());
                         } else {
-                            inputProcess(button.getText());
+                            inputProcessLabel(button.getText());
                         }
                         break;
                     case "=":
                         calculate();
+                        break;
                 }
             });
         }
@@ -161,10 +159,25 @@ public class Layout extends JFrame {
         buttonPanel.add(result);
     }
 
-    void inputProcess(String text) {
+    void inputInputLabel(String text) {
+        if (text.equals(".") && inputLabel.getText().contains(".")) {
+            return;
+        }
+
+        if (inputLabel.getText().equals("0") || isReset || isClean) {
+            inputLabel.setText(text);
+            isReset = false;
+            isClean = false;
+        } else {
+            inputLabel.setText(inputLabel.getText() + text);
+        }
+    }
+
+    void inputProcessLabel(String text) {
         if (isReset) {
             return;
         }
+
         isReset = true;
         if (processLabel.getText().isEmpty()) {
             processLabel.setText(inputLabel.getText() + " " + text);
@@ -174,63 +187,68 @@ public class Layout extends JFrame {
     }
 
     void calculate() {
-        String lastLabel;
-
-        if (!processLabel.getText().substring(processLabel.getText().length() - 1).equals(")")) {
-            lastLabel = processLabel.getText() + " " + inputLabel.getText();
-        } else {
-            lastLabel = processLabel.getText();
-        }
-
-        int leftParenthesisCount = 0;
-        int rightParenthesisCount = 0;
-        for (String s : lastLabel.split(" ")) {
-            if (s.equals("(")) leftParenthesisCount++;
-            if (s.equals(")")) rightParenthesisCount++;
-        }
-
-        if (leftParenthesisCount != rightParenthesisCount) {
-            JOptionPane.showMessageDialog(null, "괄호의 개수가 맞지 않습니다.", "에러!", JOptionPane.ERROR_MESSAGE);
-        }
-
-        Stack<String> numberStack = new Stack<>(); //숫자 스택
-        Stack<String> operatorStack = new Stack<>(); //연산자 스택
-        Map<String, Integer> operatorPrecedenceMap = Map.of("+", 1, "-", 1, "*", 2, "/", 2);
-
-        for (String word : lastLabel.split(" ")) {
-            if (word.matches("[0-9]+")) {
-                numberStack.push(word);
-            } else if (word.equals("(")) {
-                operatorStack.push(word);
-            } else if (word.equals(")")) {
-                while(!operatorStack.peek().equals("(")) {
-                    numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
-                }
-                operatorStack.pop();
-            } else if (operatorPrecedenceMap.containsKey(word)) {
-                while (!operatorStack.isEmpty()
-                        && !operatorStack.peek().equals("(")
-                        && operatorPrecedenceMap.get(word) <= operatorPrecedenceMap.get(operatorStack.peek())) {
-                    numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
-                }
-                operatorStack.push(word);
+        String lastLabel, value;
+        if (!processLabel.getText().isEmpty()) {
+            if (!processLabel.getText().substring(processLabel.getText().length() - 1).equals(")")) {
+                lastLabel = processLabel.getText() + " " + inputLabel.getText();
+            } else {
+                lastLabel = processLabel.getText();
             }
-        }
 
-        while (!operatorStack.isEmpty()) {
-            numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+            int leftParenthesisCount = 0;
+            int rightParenthesisCount = 0;
+            for (String s : lastLabel.split(" ")) {
+                if (s.equals("(")) leftParenthesisCount++;
+                if (s.equals(")")) rightParenthesisCount++;
+            }
+
+            if (leftParenthesisCount != rightParenthesisCount) {
+                JOptionPane.showMessageDialog(null, "괄호의 개수가 맞지 않습니다.", "에러!", JOptionPane.ERROR_MESSAGE);
+            }
+
+            Stack<String> numberStack = new Stack<>(); //숫자 스택
+            Stack<String> operatorStack = new Stack<>(); //연산자 스택
+            Map<String, Integer> operatorPrecedenceMap = Map.of("+", 1, "-", 1, "*", 2, "/", 2);
+
+            for (String word : lastLabel.split(" ")) {
+                if (word.matches("[0-9]+(\\.[0-9]+)?")) {
+                    numberStack.push(word);
+                } else if (word.equals("(")) {
+                    operatorStack.push(word);
+                } else if (word.equals(")")) {
+                    while(!operatorStack.peek().equals("(")) {
+                        numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+                    }
+                    operatorStack.pop();
+                } else if (operatorPrecedenceMap.containsKey(word)) {
+                    while (!operatorStack.isEmpty()
+                            && !operatorStack.peek().equals("(")
+                            && operatorPrecedenceMap.get(word) <= operatorPrecedenceMap.get(operatorStack.peek())) {
+                        numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+                    }
+                    operatorStack.push(word);
+                }
+            }
+
+            while (!operatorStack.isEmpty()) {
+                numberStack.push(priorityCalculation(operatorStack.pop(), numberStack.pop(), numberStack.pop()));
+            }
+
+            value = numberStack.pop();
+        } else {
+            value = inputLabel.getText();
         }
 
         //소수점 4자리 반올림 및 .0 제거
-        double value = Math.round(Double.parseDouble(numberStack.pop()) * 10000.0) / 10000.0;
-        String valueStr = Double.toString(value);
+        double result = Math.round(Double.parseDouble(value) * 10000.0) / 10000.0;
+        String resultStr = Double.toString(result);
 
-        if (valueStr.endsWith(".0")) {
-            valueStr = valueStr.substring(0, valueStr.length() - 2);
+        if (resultStr.endsWith(".0")) {
+            resultStr = resultStr.substring(0, resultStr.length() - 2);
         }
 
         processLabel.setText("");
-        inputLabel.setText(valueStr);
+        inputLabel.setText(resultStr);
         isClean = true;
     }
 

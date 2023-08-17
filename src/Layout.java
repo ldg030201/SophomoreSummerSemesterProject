@@ -156,7 +156,7 @@ public class Layout extends JFrame {
             return;
         }
 
-        if (inputLabel.getText().equals("0") || isReset || isClean) {
+        if ((inputLabel.getText().equals("0") && !text.equals(".")) || isReset || isClean) {
             inputLabel.setText(text);
             isReset = false;
             isClean = false;

@@ -24,6 +24,8 @@ public class Layout extends JFrame {
 
         processLabel = new JLabel("", JLabel.RIGHT); //과정
         inputLabel = new JLabel("0", JLabel.RIGHT); //입력 및 결과
+        processLabel.setFont(new Font("고딕", Font.PLAIN, 15));
+        inputLabel.setFont(new Font("고딕", Font.BOLD, 30));
         textPanel.add(processLabel);
         textPanel.add(inputLabel);
 

@@ -179,7 +179,7 @@ public class Layout extends JFrame {
         String lastProcessText = processArr[processArr.length - 1];
 
         if (text.equals("(") && !inputLabel.getText().equals("0") && lastInputText.matches("[0-9]+")) {;
-            text = "*" + text;
+            text = "* " + text;
         }
 
         if (!text.equals(")")) {
